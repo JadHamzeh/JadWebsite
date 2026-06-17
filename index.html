@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jad Hamzeh — Software Engineer / Cybersecurity Analysis</title>
+<meta name="description" content="Jad Hamzeh — Software Engineering graduate, Cybersecurity Analysis co-op student. Java, OOP, test automation, systems security. Seeking Fall 2026 co-op in Ottawa.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0e1115;
+    --bg-raised:#151a21;
+    --panel-line:#2a323d;
+    --ink:#e8ebef;
+    --ink-dim:#9aa5b1;
+    --ink-faint:#5d6772;
+    --signal:#5ee6b0;
+    --signal-dim:#3a8f6e;
+    --alert:#e6a85e;
+    --font-display:'Fraunces', serif;
+    --font-mono:'IBM Plex Mono', monospace;
+    --font-body:'Inter', sans-serif;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--font-body);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
+  }
+
+  a{color:inherit;}
+  ::selection{background:var(--signal-dim); color:#fff;}
+
+  :focus-visible{
+    outline:2px solid var(--signal);
+    outline-offset:3px;
+  }
+
+  .wrap{
+    max-width:880px;
+    margin:0 auto;
+    padding:0 28px;
+  }
+
+  /* ---------- background grid texture ---------- */
+  .grid-texture{
+    position:fixed;
+    inset:0;
+    z-index:0;
+    background-image:
+      linear-gradient(var(--panel-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--panel-line) 1px, transparent 1px);
+    background-size:48px 48px;
+    opacity:0.18;
+    mask-image:linear-gradient(to bottom, black, transparent 70%);
+  }
+
+  /* ---------- top status bar ---------- */
+  .statusbar{
+    position:relative;
+    z-index:2;
+    border-bottom:1px solid var(--panel-line);
+    background:rgba(14,17,21,0.85);
+    backdrop-filter:blur(8px);
+    position:sticky;
+    top:0;
+  }
+  .statusbar-inner{
+    max-width:880px;
+    margin:0 auto;
+    padding:14px 28px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    font-family:var(--font-mono);
+    font-size:12px;
+    letter-spacing:0.02em;
+    color:var(--ink-dim);
+  }
+  .statusbar-left{display:flex; align-items:center; gap:10px;}
+  .pulse-dot{
+    width:7px; height:7px; border-radius:50%;
+    background:var(--signal);
+    box-shadow:0 0 0 0 rgba(94,230,176,0.6);
+    animation:pulse 2.2s infinite;
+  }
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(94,230,176,0.5);}
+    70%{box-shadow:0 0 0 6px rgba(94,230,176,0);}
+    100%{box-shadow:0 0 0 0 rgba(94,230,176,0);}
+  }
+  .statusbar nav{display:flex; gap:24px;}
+  .statusbar nav a{
+    text-decoration:none;
+    color:var(--ink-dim);
+    transition:color 0.2s ease;
+  }
+  .statusbar nav a:hover{color:var(--signal);}
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative;
+    z-index:1;
+    padding:96px 0 72px;
+  }
+  .hero-eyebrow{
+    font-family:var(--font-mono);
+    font-size:12px;
+    color:var(--signal);
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    margin-bottom:22px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .hero-eyebrow::before{
+    content:'';
+    width:18px;
+    height:1px;
+    background:var(--signal);
+  }
+  .hero h1{
+    font-family:var(--font-display);
+    font-weight:500;
+    font-size:clamp(40px, 6.4vw, 64px);
+    line-height:1.06;
+    letter-spacing:-0.01em;
+    max-width:720px;
+  }
+  .hero h1 em{
+    font-style:italic;
+    font-weight:300;
+    color:var(--ink-dim);
+  }
+  .hero-sub{
+    margin-top:24px;
+    font-size:17px;
+    color:var(--ink-dim);
+    max-width:560px;
+  }
+  .hero-meta{
+    margin-top:36px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:28px;
+    font-family:var(--font-mono);
+    font-size:12.5px;
+    color:var(--ink-faint);
+  }
+  .hero-meta strong{
+    color:var(--ink);
+    font-weight:500;
+  }
+  .hero-actions{
+    margin-top:40px;
+    display:flex;
+    gap:14px;
+    flex-wrap:wrap;
+  }
+  .btn{
+    font-family:var(--font-mono);
+    font-size:13px;
+    padding:12px 22px;
+    border-radius:3px;
+    text-decoration:none;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    transition:all 0.2s ease;
+    border:1px solid transparent;
+  }
+  .btn-primary{
+    background:var(--signal);
+    color:#0a0d0f;
+    font-weight:500;
+  }
+  .btn-primary:hover{
+    background:#7df0c2;
+    transform:translateY(-1px);
+  }
+  .btn-ghost{
+    border-color:var(--panel-line);
+    color:var(--ink-dim);
+  }
+  .btn-ghost:hover{
+    border-color:var(--signal-dim);
+    color:var(--ink);
+  }
+
+  /* ---------- section shell ---------- */
+  section{
+    position:relative;
+    z-index:1;
+    padding:64px 0;
+    border-top:1px solid var(--panel-line);
+  }
+  .section-head{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    margin-bottom:36px;
+    gap:20px;
+  }
+  .section-tag{
+    font-family:var(--font-mono);
+    font-size:12px;
+    color:var(--ink-faint);
+    letter-spacing:0.08em;
+  }
+  .section-head h2{
+    font-family:var(--font-display);
+    font-size:28px;
+    font-weight:500;
+  }
+
+  /* ---------- about ---------- */
+  .about-body p{
+    color:var(--ink-dim);
+    max-width:640px;
+    margin-bottom:18px;
+    font-size:16px;
+  }
+  .about-body p:last-child{margin-bottom:0;}
+  .about-body strong{color:var(--ink); font-weight:600;}
+
+  /* ---------- focus / scan log ---------- */
+  .scanlog{
+    border:1px solid var(--panel-line);
+    border-radius:6px;
+    overflow:hidden;
+    background:var(--bg-raised);
+  }
+  .scanlog-row{
+    display:grid;
+    grid-template-columns:120px 1fr;
+    gap:24px;
+    padding:22px 24px;
+    border-bottom:1px solid var(--panel-line);
+  }
+  .scanlog-row:last-child{border-bottom:none;}
+  .scanlog-tag{
+    font-family:var(--font-mono);
+    font-size:11.5px;
+    color:var(--signal);
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    padding-top:2px;
+  }
+  .scanlog-body h3{
+    font-size:16.5px;
+    font-weight:600;
+    margin-bottom:6px;
+  }
+  .scanlog-body p{
+    color:var(--ink-dim);
+    font-size:14.5px;
+  }
+
+  @media (max-width:560px){
+    .scanlog-row{grid-template-columns:1fr; gap:8px;}
+  }
+
+  /* ---------- skills ---------- */
+  .skills-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:1px;
+    background:var(--panel-line);
+    border:1px solid var(--panel-line);
+    border-radius:6px;
+    overflow:hidden;
+  }
+  .skills-col{
+    background:var(--bg-raised);
+    padding:26px 28px;
+  }
+  .skills-col h3{
+    font-family:var(--font-mono);
+    font-size:12px;
+    color:var(--ink-faint);
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    margin-bottom:16px;
+  }
+  .skills-col ul{
+    list-style:none;
+  }
+  .skills-col li{
+    padding:8px 0;
+    border-top:1px solid var(--panel-line);
+    font-size:14.5px;
+    color:var(--ink-dim);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
+  .skills-col li:first-child{border-top:none;}
+  .skills-col li span.val{
+    color:var(--ink);
+    font-weight:500;
+  }
+  @media (max-width:560px){
+    .skills-grid{grid-template-columns:1fr;}
+  }
+
+  /* ---------- contact ---------- */
+  .contact-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:14px;
+  }
+  .contact-card{
+    flex:1;
+    min-width:180px;
+    border:1px solid var(--panel-line);
+    border-radius:6px;
+    padding:20px 22px;
+    text-decoration:none;
+    transition:border-color 0.2s ease, transform 0.2s ease;
+  }
+  .contact-card:hover{
+    border-color:var(--signal-dim);
+    transform:translateY(-2px);
+  }
+  .contact-card .label{
+    font-family:var(--font-mono);
+    font-size:11px;
+    color:var(--ink-faint);
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    margin-bottom:8px;
+  }
+  .contact-card .value{
+    font-size:15px;
+    color:var(--ink);
+    font-weight:500;
+  }
+
+  footer{
+    padding:36px 0 56px;
+    font-family:var(--font-mono);
+    font-size:11.5px;
+    color:var(--ink-faint);
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:10px;
+  }
+</style>
+</head>
+<body>
+
+<div class="grid-texture" aria-hidden="true"></div>
+
+<header class="statusbar">
+  <div class="statusbar-inner">
+    <div class="statusbar-left">
+      <span class="pulse-dot" aria-hidden="true"></span>
+      <span>JAD HAMZEH — AVAILABLE FOR FALL 2026 CO-OP</span>
+    </div>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#focus">Focus</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="hero" style="border-top:none;">
+    <p class="hero-eyebrow">Software Engineering → Cybersecurity Analysis</p>
+    <h1>Jad Hamzeh<br><em>builds it, then tries to break it.</em></h1>
+    <p class="hero-sub">
+      Software Engineering graduate from Carleton University, now in the Cybersecurity
+      Analysis co-op program at Algonquin College. I like the part of the job most people
+      skip past: tracing a bug to its root cause, then asking what else it might let through.
+    </p>
+    <div class="hero-meta">
+      <span><strong>Location</strong> · Ottawa, ON</span>
+      <span><strong>Status</strong> · Seeking Fall 2026 co-op</span>
+      <span><strong>Core stack</strong> · Java · OOP · Linux</span>
+    </div>
+    <div class="hero-actions">
+      <a href="#contact" class="btn btn-primary">Get in touch</a>
+      <a href="#about" class="btn btn-ghost">Read more ↓</a>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="section-head">
+      <h2>About</h2>
+      <span class="section-tag">01 / PROFILE</span>
+    </div>
+    <div class="about-body">
+      <p>
+        I'm a Software Engineering graduate from Carleton University, currently
+        sharpening my expertise in the Cybersecurity Analysis co-op program at
+        Algonquin College. I'm deeply interested in software quality, automation,
+        and system security, and this site is where that work lives.
+      </p>
+      <p>
+        My foundation is in <strong>robust programming and debugging</strong>,
+        particularly in Java, alongside hands-on experience designing software
+        architectures, writing clean code, and working through complex
+        troubleshooting scenarios. Whether it's tracking down an elusive bug or
+        tightening up an object-oriented design, I like understanding exactly how
+        software works before I trust it.
+      </p>
+    </div>
+  </section>
+
+  <section id="focus">
+    <div class="section-head">
+      <h2>What I'm focused on</h2>
+      <span class="section-tag">02 / TARGETS</span>
+    </div>
+    <div class="scanlog">
+      <div class="scanlog-row">
+        <span class="scanlog-tag">Testing</span>
+        <div class="scanlog-body">
+          <h3>Test Automation & Scripting</h3>
+          <p>Building applications and scripts that streamline software validation, surface defects earlier, and tighten up QA workflows.</p>
+        </div>
+      </div>
+      <div class="scanlog-row">
+        <span class="scanlog-tag">Infra</span>
+        <div class="scanlog-body">
+          <h3>Systems & Infrastructure</h3>
+          <p>Going deeper on networking, Linux environments, virtualization, and telecommunications — the layer software quality actually depends on.</p>
+        </div>
+      </div>
+      <div class="scanlog-row">
+        <span class="scanlog-tag">Security</span>
+        <div class="scanlog-body">
+          <h3>Cybersecurity Analysis</h3>
+          <p>Merging a software engineering background with modern security frameworks to help build systems that hold up under pressure.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="section-head">
+      <h2>Core skills</h2>
+      <span class="section-tag">03 / STACK</span>
+    </div>
+    <div class="skills-grid">
+      <div class="skills-col">
+        <h3>Languages & Concepts</h3>
+        <ul>
+          <li>Java <span class="val">Daily</span></li>
+          <li>Object-Oriented Programming <span class="val">Core</span></li>
+          <li>Scripting <span class="val">Working</span></li>
+          <li>Software Testing <span class="val">Working</span></li>
+        </ul>
+      </div>
+      <div class="skills-col">
+        <h3>Tools & Environments</h3>
+        <ul>
+          <li>Git <span class="val">Daily</span></li>
+          <li>Linux <span class="val">Daily</span></li>
+          <li>Collaborative dev platforms <span class="val">Working</span></li>
+          <li>Virtualization <span class="val">Learning</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="section-head">
+      <h2>Let's talk</h2>
+      <span class="section-tag">04 / CONTACT</span>
+    </div>
+    <p style="color:var(--ink-dim); max-width:560px; margin-bottom:28px;">
+      I'm always glad to connect with developers, security folks, and engineering
+      teams — especially anyone hiring in Ottawa for Fall 2026. Reach out any of
+      these ways.
+    </p>
+    <div class="contact-row">
+      <a class="contact-card" href="mailto:youremail@example.com">
+        <div class="label">Email</div>
+        <div class="value">youremail@example.com</div>
+      </a>
+      <a class="contact-card" href="https://www.linkedin.com/in/yourprofile" target="_blank" rel="noopener">
+        <div class="label">LinkedIn</div>
+        <div class="value">/in/yourprofile</div>
+      </a>
+      <a class="contact-card" href="https://github.com/yourusername" target="_blank" rel="noopener">
+        <div class="label">GitHub</div>
+        <div class="value">@yourusername</div>
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <span>© 2026 Jad Hamzeh</span>
+    <span>Built with HTML & CSS</span>
+  </footer>
+
+</main>
+
+</body>
+</html>
